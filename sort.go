@@ -19,7 +19,7 @@ type object struct {
 }
 
 func SortYAMLObjects(yamlBytes []byte) ([]byte, error) {
-	// split on '---' as per the yaml spec
+	// Split on '---' as per the yaml spec
 	split := bytes.Split(yamlBytes, yamlsep)
 
 	var objs []object
@@ -27,6 +27,11 @@ func SortYAMLObjects(yamlBytes []byte) ([]byte, error) {
 		json, err := yaml.ToJSON(s)
 		if err != nil {
 			return nil, err
+		}
+
+		// If json returns null then we can ignore as this is not a valid yaml object
+		if bytes.Equal(json, []byte("null")) {
+			continue
 		}
 
 		runObj, _, err := unstructured.UnstructuredJSONScheme.Decode(json, nil, nil)
