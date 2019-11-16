@@ -10,7 +10,8 @@ import (
 )
 
 var (
-	yamlsep = []byte("---\n")
+	yamlsep   = []byte("---\n")
+	yamlsepnl = []byte("\n---\n")
 )
 
 type object struct {
@@ -68,8 +69,8 @@ func SortYAMLObjects(yamlBytes []byte) ([]byte, error) {
 
 	var sorted [][]byte
 	for _, obj := range objs {
-		sorted = append(sorted, split[obj.i])
+		sorted = append(sorted, bytes.TrimSpace(split[obj.i]))
 	}
 
-	return bytes.Join(sorted, yamlsep), nil
+	return bytes.Join(sorted, yamlsepnl), nil
 }

@@ -107,7 +107,7 @@ func readFiles(fs []string) ([]byte, error) {
 			return nil, err
 		}
 
-		out = append(out, yamlsep...)
+		out = append(out, yamlsepnl...)
 		out = append(out, b...)
 	}
 
