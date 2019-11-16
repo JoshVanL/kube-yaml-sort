@@ -72,5 +72,5 @@ func SortYAMLObjects(yamlBytes []byte) ([]byte, error) {
 		sorted = append(sorted, bytes.TrimSpace(split[obj.i]))
 	}
 
-	return bytes.Join(sorted, yamlsepnl), nil
+	return append(bytes.Join(sorted, yamlsepnl), '\n'), nil
 }

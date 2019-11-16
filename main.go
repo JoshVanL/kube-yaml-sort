@@ -55,7 +55,7 @@ func main() {
 				}
 
 			} else {
-				fmt.Printf("%s\n", sorted)
+				fmt.Printf("%s", sorted)
 			}
 
 			return nil

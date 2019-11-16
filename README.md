@@ -13,39 +13,47 @@ The tool will output to Stdout by default or to a file (--file -o).
 This tool should work for all Kubernetes manifests that have objects that have
 any of the API version, kind or metadata stanzas at the top level.
 
+The tool with remove null objects and preserves comments.
+
 To build this tool simply run `go build` or `go install`.
 
 Here is an example of the tool:
 
 ```
-$ cat in.yaml
+$ cat in
 apiVersion: api-B
 kind: kind-A
 metadata:
   name: name-A
   namespace: name-B
 ---
+
+# This is a comment
 apiVersion: api-A
 kind: kind-A
 metadata:
   name: name-B
   namespace: name-A
 ---
+
 apiVersion: api-B
 kind: kind-A
 metadata:
   name: name-B
   namespace: name-A
 ---
+---
 apiVersion: api-A
 kind: kind-B
+# This is another comment
 metadata:
   name: name-A
   namespace: name-A
 
-$ ./kube-yaml-sort in.yaml -o out.yaml
+$ kube-yaml-sort in -o out
 
-$ cat out.yaml
+$ cat out
+# This is a comment
 apiVersion: api-A
 kind: kind-A
 metadata:
@@ -54,6 +62,8 @@ metadata:
 ---
 apiVersion: api-A
 kind: kind-B
+# This is another
+# comment
 metadata:
   name: name-A
   namespace: name-A
