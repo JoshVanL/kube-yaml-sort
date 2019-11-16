@@ -93,7 +93,7 @@ func readStdin() ([]byte, error) {
 
 func readFiles(fs []string) ([]byte, error) {
 	if len(fs) == 0 {
-		return nil, errors.New("at leat one file needed as input")
+		return nil, errors.New("at least one file needed as input")
 	}
 
 	out, err := ioutil.ReadFile(fs[0])
@@ -107,11 +107,7 @@ func readFiles(fs []string) ([]byte, error) {
 			return nil, err
 		}
 
-		if out[len(out)-1] != '\n' {
-			out = append(out, '\n')
-		}
-
-		out = append(out, yamlsepnl...)
+		out = append(out, yamlsep...)
 		out = append(out, b...)
 	}
 
