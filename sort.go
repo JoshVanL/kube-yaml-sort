@@ -73,14 +73,9 @@ func SortYAMLObjects(yamlBytes []byte) ([]byte, error) {
 	})
 
 	output := yamlsep
-	for i, obj := range objs {
+	for _, obj := range objs {
 		output = append(output, bytes.TrimSpace(split[obj.i])...)
-
-		if i+1 < len(objs) {
-			output = append(output, yamlsepnl...)
-		} else {
-			output = append(output, '\n')
-		}
+		output = append(output, yamlsepnl...)
 	}
 
 	return output, nil
