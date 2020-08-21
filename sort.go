@@ -51,6 +51,11 @@ func SortYAMLObjects(yamlBytes []byte) ([]byte, error) {
 		})
 	}
 
+	if len(objs) == 0 {
+		return nil, fmt.Errorf("failed to find any kubernetes objects:\n%s",
+			yamlBytes)
+	}
+
 	sort.SliceStable(objs, func(i, j int) bool {
 		if objs[i].obj.GetAPIVersion() != objs[j].obj.GetAPIVersion() {
 			return objs[i].obj.GetAPIVersion() < objs[j].obj.GetAPIVersion()
@@ -67,10 +72,11 @@ func SortYAMLObjects(yamlBytes []byte) ([]byte, error) {
 		return objs[i].obj.GetName() < objs[j].obj.GetName()
 	})
 
-	var sorted [][]byte
+	output := yamlsep
 	for _, obj := range objs {
-		sorted = append(sorted, bytes.TrimSpace(split[obj.i]))
+		output = append(output, bytes.TrimSpace(split[obj.i])...)
+		output = append(output, yamlsepnl...)
 	}
 
-	return append(bytes.Join(sorted, yamlsepnl), '\n'), nil
+	return output, nil
 }
